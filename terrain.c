@@ -1,5 +1,11 @@
 #include "terrain.h"
 
+
+const uint64_t Terrain_Header_0 = 0x0000000000C0E300;
+const uint64_t Terrain_Header_1 = 0x0000000000000000;
+const uint32_t Terrain_Header_2 = 0x00000000;
+const uint8_t Terrain_Reserved_Flag = 0x00;
+
 void 
 Terrain_add(
 	Terrain* ter, 
@@ -238,6 +244,40 @@ Terrain_toMemory(
 
 	// fourth element ist the team
 
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	uint32_t endianSwapedOwner = __bswap_32(ter->owner);
+	memcpy(
+		mem->data + offset, 
+		&endianSwapedOwner, 
+		sizeof(uint32_t));
+
+	// fitht elements are flags
+	
+	// reserved1-3
+	for(int i = 0; i < 3; i++)
+	{
+		offset = mem->size;
+		mem->size += sizeof(uint8_t); 
+		mem->data = realloc(
+			mem->data, 
+			mem->size);
+		if(!mem->data)
+		{
+			Error_fatal("Reallocation Failed");
+		}
+		memcpy(
+			mem->data + offset, 
+			&Terrain_Reserved_Flag, 
+			sizeof(uint8_t));
+	}
 	//debug
 	printVoidArray(
 		mem->data, 
