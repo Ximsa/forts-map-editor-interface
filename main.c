@@ -1,5 +1,6 @@
 #include "customString.h"
 #include "terrain.h"
+#include "error.h"
 #include <math.h>
 int main()
 {
@@ -14,6 +15,7 @@ int main()
 	Terrain* ter;
 	ter = Terrain_create(ter);
 
-	Terrain_add(ter, pol, 1, true, true, false, false, false);
+	Terrain_add(ter, pol, "enviroment/alpine/ground/ground1.dds", 1, true, true, false, false, false);
+	Terrain_toMemory(ter);
 	return 0;
 }

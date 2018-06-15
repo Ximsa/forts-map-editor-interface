@@ -1,2 +1,2 @@
-gcc -g -c customString.c terrain.c polygon.c memory.c
-gcc -g -o prog main.c customString.o terrain.o polygon.o memory.o -lm
+gcc -g -c customString.c terrain.c polygon.c memory.c error.c
+gcc -g -o prog main.c customString.o terrain.o polygon.o memory.o error.o -lm
