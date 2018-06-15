@@ -149,19 +149,55 @@ Terrain_removeLast(
 	return ter;
 }
 
-void* 
+Memory*
 Terrain_toMemory(
 	Terrain* ter)
 {
-	void* mem = 0;
+	Memory* mem = (Memory*)malloc(sizeof(Memory));
+	mem->data = 0;
+	mem->size = 0;
+	int offset = 0;
 
-	// first element is filesting length
-	uint32_t fstrlen = strlen(ter->filename);
-	
+
+	// first element is filesting length + NULL-byte
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	uint32_t filenameLen = strlen(ter->filename) + 1; // NULL-byte
+	memcpy(
+		mem->data + offset, 
+		&filenameLen, 
+		sizeof(uint32_t));
+
 	//second element is the string
-	const char* filename = ter->filename;
+	offset = mem->size;
+	mem->size += filenameLen;
+		mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
 
+	memcpy(
+		mem->data + offset,
+		ter->filename,
+		filenameLen);
 	//third element are
+
+
+
+	int j;
+	for(j = 0; j < mem->size; ++j)
+  		printf("%02x\n", ((uint8_t*) mem->data)[j]);
+	return mem;
 }
 
 

@@ -1,6 +1,8 @@
 #ifndef TERRAINPARSER_H
 #define TERRAINPARSER_H
 #include "polygon.h"
+#include "memory.h"
+#include "error.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -17,9 +19,6 @@ typedef struct Terrain
 	bool viewfloor;
 	bool nodraw;
 }Terrain;
-
-const uint16_t Terrain_Header_1 = 0x0000;
-const uint64_t Terrain_Header_2 = 0x00000000 ;
 
 void 
 Terrain_add(
@@ -54,7 +53,7 @@ Terrain*
 Terrain_removeLast(
 	Terrain* ter);
 
-void* 
+Memory*
 Terrain_toMemory(
 	Terrain* ter);
 
