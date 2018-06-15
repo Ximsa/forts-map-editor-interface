@@ -1,7 +1,7 @@
 #include "terrain.h"
 
 
-const uint64_t Terrain_Header_0 = 0x0000000000C0E300;
+const uint64_t Terrain_Header_0 = 0x00000000003EC000;
 const uint64_t Terrain_Empty_64 = 0x0000000000000000;
 const uint32_t Terrain_Empty_32 = 0x00000000;
 const uint8_t Terrain_Reserved_Flag = 0x00;
@@ -371,7 +371,7 @@ Terrain_toMemory(
 		&Terrain_Header_1, 
 		sizeof(uint16_t));
 
-	// polygon //TODO: see what mystery parameters do
+	// polygon //TODO: see what mystery parameters do (seems to be pointles)
 	Polygon* polCur = ter->pol;
 
 	while(polCur)
