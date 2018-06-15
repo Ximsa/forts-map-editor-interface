@@ -5,7 +5,7 @@ Terrain_add(
 	Terrain* ter, 
 	Polygon* pol,
 	const char* filename,
-	int owner, 
+	int32_t owner, 
 	bool foundations,
 	bool mines,
 	bool windfloor,
@@ -192,8 +192,51 @@ Terrain_toMemory(
 		filenameLen);
 
 
-	//third element are Flags
+	//third element is constant (Header #0 - #2)
 	
+	offset = mem->size;
+	mem->size += sizeof(uint64_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&Terrain_Header_0, 
+		sizeof(uint64_t));
+	
+	offset = mem->size;
+	mem->size += sizeof(uint64_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&Terrain_Header_1, 
+		sizeof(uint64_t));
+
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&Terrain_Header_2, 
+		sizeof(uint32_t));
+
+	// fourth element ist the team
 
 	//debug
 	printVoidArray(

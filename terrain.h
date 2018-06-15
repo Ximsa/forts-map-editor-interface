@@ -21,12 +21,18 @@ typedef struct Terrain
 	bool nodraw;
 }Terrain;
 
+const uint64_t Terrain_Header_0 = 0x0000000000C0E300;
+const uint64_t Terrain_Header_1 = 0x0000000000000000;
+const uint32_t Terrain_Header_3 = 0x00000000;
+
+
+
 void 
 Terrain_add(
 	Terrain* ter, 
 	Polygon* pol, 
 	const char* filename,
-	int owner,
+	int32_t owner,
 	bool foundations,
 	bool mines,
 	bool windfloor,
