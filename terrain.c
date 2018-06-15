@@ -190,13 +190,16 @@ Terrain_toMemory(
 		mem->data + offset,
 		ter->filename,
 		filenameLen);
-	//third element are
 
 
+	//third element are Flags
+	
 
-	int j;
-	for(j = 0; j < mem->size; ++j)
-  		printf("%02x\n", ((uint8_t*) mem->data)[j]);
+	//debug
+	printVoidArray(
+		mem->data, 
+		mem->size);
+	
 	return mem;
 }
 

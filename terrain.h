@@ -3,6 +3,7 @@
 #include "polygon.h"
 #include "memory.h"
 #include "error.h"
+#include "util.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
