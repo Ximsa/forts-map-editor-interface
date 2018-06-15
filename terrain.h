@@ -15,11 +15,11 @@ typedef struct Terrain
 	struct Polygon* pol;
 	const char* filename;
 	int owner;
-	bool foundations;
-	bool mines;
-	bool windfloor;
-	bool viewfloor;
-	bool nodraw;
+	int8_t foundation;
+	int8_t mine;
+	int8_t windfloor;
+	int8_t viewfloor;
+	int8_t nodraw;
 }Terrain;
 
 void 
@@ -28,11 +28,11 @@ Terrain_add(
 	Polygon* pol, 
 	const char* filename,
 	int32_t owner,
-	bool foundations,
-	bool mines,
-	bool windfloor,
-	bool viewfloor,
-	bool nodraw);
+	int8_t foundation,
+	int8_t mine,
+	int8_t windfloor,
+	int8_t viewfloor,
+	int8_t nodraw);
 
 Terrain*
 Terrain_create(

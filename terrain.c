@@ -2,21 +2,21 @@
 
 
 const uint64_t Terrain_Header_0 = 0x0000000000C0E300;
-const uint64_t Terrain_Header_1 = 0x0000000000000000;
-const uint32_t Terrain_Header_2 = 0x00000000;
+const uint64_t Terrain_Empty_64 = 0x0000000000000000;
+const uint32_t Terrain_Empty_32 = 0x00000000;
 const uint8_t Terrain_Reserved_Flag = 0x00;
-
+const uint16_t Terrain_Header_1 = 0x11;
 void 
 Terrain_add(
 	Terrain* ter, 
 	Polygon* pol,
 	const char* filename,
 	int32_t owner, 
-	bool foundations,
-	bool mines,
-	bool windfloor,
-	bool viewfloor,
-	bool nodraw
+	int8_t foundation,
+	int8_t mine,
+	int8_t windfloor,
+	int8_t viewfloor,
+	int8_t nodraw
 	)
 {
 	if(ter)
@@ -28,8 +28,8 @@ Terrain_add(
 				pol,
 				filename,
 				owner,
-				foundations,
-				mines,
+				foundation,
+				mine,
 				windfloor,
 				viewfloor,
 				nodraw);
@@ -39,8 +39,8 @@ Terrain_add(
 			ter->pol = pol;
 			ter->filename = filename;
 			ter->owner = owner;
-			ter->foundations = foundations;
-			ter->mines = mines;
+			ter->foundation = foundation;
+			ter->mine = mine;
 			ter->windfloor = windfloor;
 			ter->viewfloor = viewfloor;
 			ter->nodraw = nodraw;
@@ -225,7 +225,7 @@ Terrain_toMemory(
 	}
 	memcpy(
 		mem->data + offset, 
-		&Terrain_Header_1, 
+		&Terrain_Empty_64, 
 		sizeof(uint64_t));
 
 	offset = mem->size;
@@ -239,7 +239,7 @@ Terrain_toMemory(
 	}
 	memcpy(
 		mem->data + offset, 
-		&Terrain_Header_2, 
+		&Terrain_Empty_32, 
 		sizeof(uint32_t));
 
 	// fourth element ist the team
@@ -274,15 +274,195 @@ Terrain_toMemory(
 			Error_fatal("Reallocation Failed");
 		}
 		memcpy(
-			mem->data + offset, 
-			&Terrain_Reserved_Flag, 
+			mem->data + offset,
+			&Terrain_Reserved_Flag,
 			sizeof(uint8_t));
 	}
-	//debug
-	printVoidArray(
+
+	// Wind Floor Flag
+	
+	offset = mem->size;
+	mem->size += sizeof(uint8_t); 
+	mem->data = realloc(
 		mem->data, 
 		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&ter->windfloor, 
+		sizeof(uint8_t));
+
+	// View Floor Flag
+	offset = mem->size;
+	mem->size += sizeof(uint8_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&ter->viewfloor, 
+		sizeof(uint8_t));
+
+	// No Draw Flag
 	
+	offset = mem->size;
+	mem->size += sizeof(uint8_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&ter->nodraw, 
+		sizeof(uint8_t));
+
+	// Foundation Flag
+	offset = mem->size;
+	mem->size += sizeof(uint8_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&ter->foundation, 
+		sizeof(uint8_t));
+
+	// Mine Flag	
+	offset = mem->size;
+	mem->size += sizeof(uint8_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&ter->mine, 
+		sizeof(uint8_t));
+	
+	// constant
+	offset = mem->size;
+	mem->size += sizeof(uint16_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&Terrain_Header_1, 
+		sizeof(uint16_t));
+
+	// polygon //TODO: see what mystery parameters do
+	Polygon* polCur = ter->pol;
+
+	while(polCur)
+	{
+		// add x
+		offset = mem->size;
+		mem->size += sizeof(float); 
+		mem->data = realloc(
+			mem->data, 
+			mem->size);
+		if(!mem->data)
+		{
+			Error_fatal("Reallocation Failed");
+		}
+		memcpy(
+			mem->data + offset, 
+			&polCur->x, 
+		sizeof(float));
+
+		// add y
+		offset = mem->size;
+		mem->size += sizeof(float); 
+		mem->data = realloc(
+			mem->data, 
+			mem->size);
+		if(!mem->data)
+		{
+			Error_fatal("Reallocation Failed");
+		}
+		memcpy(
+			mem->data + offset, 
+			&polCur->y, 
+		sizeof(float));
+
+		// add trailing 3 empty integers
+		for(int i = 0; i < 3; i++)
+		{
+			offset = mem->size;
+			mem->size += sizeof(uint32_t); 
+			mem->data = realloc(
+				mem->data, 
+				mem->size);
+			if(!mem->data)
+			{
+				Error_fatal("Reallocation Failed");
+			}
+			memcpy(
+				mem->data + offset,
+				&Terrain_Empty_32,
+				sizeof(uint32_t));
+		}
+		
+		// next point
+		polCur = polCur->next;
+	}
+	// stop sign
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset,
+		&Terrain_Empty_32,
+		sizeof(uint32_t));
+
+	// and tell number of points + 1
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	uint32_t polPoints = Polygon_getSize(
+		ter->pol) + 1;
+	memcpy(
+		mem->data + offset,
+		&polPoints,
+		sizeof(uint32_t));
+
+	//debug
+	printVoidArray(
+		mem->data,
+		mem->size);
 	return mem;
 }
 
