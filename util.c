@@ -26,3 +26,16 @@ printVoidArray(
   			
 	}	
 }
+void
+writeVoidArrayFile(
+	int8_t append,
+	const char* filename,
+	void* data,
+	int length)
+{
+	FILE* pFile = fopen(
+		filename,
+		append? "ab": "wb");
+	fwrite(data,1 , length, pFile);
+	fclose(pFile);	
+}

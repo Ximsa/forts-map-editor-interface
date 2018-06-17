@@ -6,4 +6,12 @@ void
 printVoidArray(
 	void* data, 
 	int length);
+
+void
+writeVoidArrayFile(
+	int8_t append,
+	const char* filename,
+	void* data,
+	int length);
+
 #endif 

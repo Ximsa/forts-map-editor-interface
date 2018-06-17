@@ -1,11 +1,11 @@
 #include "terrain.h"
 
-
-const uint64_t Terrain_Header_0 = 0x00000000003EC000;
+const uint32_t Terrain_Seperator = 0x3F800000;
+const uint64_t Terrain_Header_0 = 0x003EC00000000000;
 const uint64_t Terrain_Empty_64 = 0x0000000000000000;
 const uint32_t Terrain_Empty_32 = 0x00000000;
 const uint8_t Terrain_Reserved_Flag = 0x00;
-const uint16_t Terrain_Header_1 = 0x11;
+const uint16_t Terrain_Header_1 = 0x0101;
 void 
 Terrain_add(
 	Terrain* ter, 
@@ -163,7 +163,25 @@ Terrain_toMemory(
 	mem->data = 0;
 	mem->size = 0;
 	int offset = 0;
+	
+	// seperate 
+	for(int i = 0; i < 4; i++)
+	{
+		offset = mem->size;
+		mem->size += sizeof(uint32_t); 
+		mem->data = realloc(
+			mem->data, 
+			mem->size);
+		if(!mem->data)
+		{
+			Error_fatal("Reallocation Failed");
+		}
+		memcpy(
+			mem->data + offset, 
+			&Terrain_Seperator, 
+			sizeof(uint32_t));
 
+	}
 
 	// first element is filesting length + NULL-byte
 	offset = mem->size;
@@ -175,7 +193,7 @@ Terrain_toMemory(
 	{
 		Error_fatal("Reallocation Failed");
 	}
-	uint32_t filenameLen = strlen(ter->filename) + 1; // NULL-byte
+	uint32_t filenameLen = strlen(ter->filename);
 	memcpy(
 		mem->data + offset, 
 		&filenameLen, 
@@ -463,6 +481,7 @@ Terrain_toMemory(
 	printVoidArray(
 		mem->data,
 		mem->size);
+	writeVoidArrayFile(1, "result.fwe", mem->data, mem->size);
 	return mem;
 }
 
