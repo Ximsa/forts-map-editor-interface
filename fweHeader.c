@@ -4,15 +4,18 @@ FweHeader_create(
 	Memory* head, 
 	const char* filename)
 {
+	head = (Memory*)calloc(sizeof(Memory), 1);
+
 	printf("still there\n");
 	// constant stuff
 	head->size = sizeof(fweHeader_data);
-	head->data = malloc(head->size);
+	head->data = realloc(head->data, head->size);
 	memcpy(
 		head->data,
 		&fweHeader_data,
 		head->size);
 	printf("still there\n");
+
 	// filename Length
 	int offset = head->size;
 	uint32_t filenameLen = strlen(filename);
@@ -29,6 +32,7 @@ FweHeader_create(
 		&filenameLen,
 		sizeof(uint32_t));
 	printf("still there\n");
+
 	// filename
 	offset = head->size;
 	
@@ -45,4 +49,6 @@ FweHeader_create(
 		filename,
 		filenameLen);
 	printf("still there\n");
+
+	return head;
 }

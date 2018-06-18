@@ -7,7 +7,7 @@
 
 int main()
 {
-	Polygon* pol;
+	Polygon* pol = 0;
 	pol = Polygon_create(pol);
 
 	Polygon_add(pol, 150 , 100);
@@ -16,11 +16,11 @@ int main()
 
 	Polygon_removeLast(pol);
 	
-	Terrain* ter;
+	Terrain* ter = 0;
 	ter = Terrain_create(ter);
 
 	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, true);
-	Memory* header;
+	Memory* header = 0;
 	header = FweHeader_create(header, "environment/alpine");
 	Memory* mem = Terrain_toMemory(ter);
 	Util_writeVoidArrayFile(0,"result.fwe", header->data, header->size);
