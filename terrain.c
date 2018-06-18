@@ -477,11 +477,6 @@ Terrain_toMemory(
 		&polPoints,
 		sizeof(uint32_t));
 
-	//debug
-	printVoidArray(
-		mem->data,
-		mem->size);
-	writeVoidArrayFile(1, "result.fwe", mem->data, mem->size);
 	return mem;
 }
 

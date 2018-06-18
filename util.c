@@ -1,7 +1,7 @@
  #include "util.h"
 
 void 
-printVoidArray(
+Util_printVoidArray(
 	void* data, 
 	int length)
 {
@@ -27,7 +27,7 @@ printVoidArray(
 	}	
 }
 void
-writeVoidArrayFile(
+Util_writeVoidArrayFile(
 	int8_t append,
 	const char* filename,
 	void* data,

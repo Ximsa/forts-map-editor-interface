@@ -3,12 +3,12 @@
 #include <stdio.h>
 #include <stdint.h>
 void 
-printVoidArray(
+Util_printVoidArray(
 	void* data, 
 	int length);
 
 void
-writeVoidArrayFile(
+Util_writeVoidArrayFile(
 	int8_t append,
 	const char* filename,
 	void* data,
