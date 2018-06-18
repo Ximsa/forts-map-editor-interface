@@ -1,5 +1,6 @@
 #include "terrain.h"
 
+const uint32_t Terrain_Init = 0x00000003;
 const uint32_t Terrain_Seperator = 0x3F800000;
 const uint64_t Terrain_Header_0 = 0x003EC00000000000;
 const uint64_t Terrain_Empty_64 = 0x0000000000000000;
@@ -112,7 +113,7 @@ Terrain_getSize(
 		}
 		else
 		{
-			return 1;
+			return 0;
 		}
 	}
 	else
@@ -159,11 +160,47 @@ Memory*
 Terrain_toMemory(
 	Terrain* ter)
 {
-	Memory* mem = (Memory*)malloc(sizeof(Memory));
+	// inititialize memory
+	Memory* mem = (Memory*)malloc(
+		sizeof(Memory));
 	mem->data = 0;
 	mem->size = 0;
 	int offset = 0;
 	
+	// header
+	// polygon size
+	offset = mem->size;
+	mem->size += sizeof(uint64_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	uint64_t polygonLen = (Terrain_getSize(ter));
+	memcpy(
+		mem->data + offset, 
+		&polygonLen,
+		sizeof(uint64_t));
+
+	// constant 
+	offset = mem->size;
+	mem->size += sizeof(uint32_t); 
+	mem->data = realloc(
+		mem->data, 
+		mem->size);
+	if(!mem->data)
+	{
+		Error_fatal("Reallocation Failed");
+	}
+	memcpy(
+		mem->data + offset, 
+		&Terrain_Init,
+		sizeof(uint32_t));
+	// end header
+
+
 	// seperate 
 	for(int i = 0; i < 4; i++)
 	{
@@ -183,11 +220,11 @@ Terrain_toMemory(
 
 	}
 
-	// first element is filesting length + NULL-byte
+	// first element is filesting length
 	offset = mem->size;
 	mem->size += sizeof(uint32_t); 
 	mem->data = realloc(
-		mem->data, 
+		mem->data,
 		mem->size);
 	if(!mem->data)
 	{
@@ -391,7 +428,7 @@ Terrain_toMemory(
 
 	// polygon //TODO: see what mystery parameters do (seems to be pointles)
 	Polygon* polCur = ter->pol;
-
+	
 	while(polCur)
 	{
 		// add x

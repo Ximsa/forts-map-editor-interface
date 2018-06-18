@@ -6,7 +6,6 @@ FweHeader_create(
 {
 	head = (Memory*)calloc(sizeof(Memory), 1);
 
-	printf("still there\n");
 	// constant stuff
 	head->size = sizeof(fweHeader_data);
 	head->data = realloc(head->data, head->size);
@@ -14,7 +13,6 @@ FweHeader_create(
 		head->data,
 		&fweHeader_data,
 		head->size);
-	printf("still there\n");
 
 	// filename Length
 	int offset = head->size;
@@ -48,7 +46,6 @@ FweHeader_create(
 		head->data + offset,
 		filename,
 		filenameLen);
-	printf("still there\n");
 
 	return head;
 }
