@@ -9,14 +9,19 @@ int main()
 {
 	Terrain *ter = 0;
 	ter = Terrain_create(ter);
+	float ly = 0;
 	Polygon *pol = 0;
-	Polygon_add(pol, 0 , 10000);
-	for(float i = -999; i < 10000; i++)
+	pol = Polygon_create(pol);
+	Polygon_add(pol, 0 , 100000);
+	for(float x = -999; x < 1000; x++)
 	{
-		float y = i/2 + sin(0.005*i)*255;
-		Polygon_add(pol, i , y);
-	}
 
+		float y = x/2 + sin(0.005*x)*255;
+		Polygon_add(pol, x, y);
+
+
+	}
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, false, false);
 	Memory* header = 0;
 	header = FweHeader_create(header, "environment/alpine");
 	Memory* mem = Terrain_toMemory(ter);
