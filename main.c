@@ -11,16 +11,18 @@ int main()
 	ter = Terrain_create(ter);
 	Polygon *pol = 0;
 	pol = Polygon_create(pol);
-	Polygon_add(pol, 0 , 100000);
-	for(float x = -9999; x < 10000; x+=50)
+	Polygon_add(pol, 0 , 100000, false, "");
+	for(float x = -9999; x < 0; x+=50)
 	{
-
 		float y = x/2 + sin(0.005*x)*255;
-		Polygon_add(pol, x, y);
-
-
+		Polygon_add(pol, x, y, true, "rocks01");
 	}
-	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds","rocks01", 1, true ,true, true, true, false, false);
+	for(float x = 0; x < 10000; x+=50)
+	{
+		float y = x/2 + sin(0.005*x)*255;
+		Polygon_add(pol, x, y, false, "rocks01");
+	}
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds","rocks01", 1, false ,true, true, true, false, false);
 	Memory* header = 0;
 	header = FweHeader_create(header, "environment/alpine");
 	Memory* mem = Terrain_toMemory(ter);

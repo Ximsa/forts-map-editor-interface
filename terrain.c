@@ -538,8 +538,8 @@ Terrain_toMemory(
 				&polCur->y, 
 			sizeof(float));
 
-			// add trailing 3 empty integers
-			for(int i = 0; i < 3; i++)
+			// add trailing 2 empty integers
+			for(int i = 0; i < 2; i++)
 			{
 				offset = mem->size;
 				mem->size += sizeof(uint32_t); 
@@ -555,7 +555,59 @@ Terrain_toMemory(
 					&Terrain_Empty_32,
 					sizeof(uint32_t));
 			}
-		
+			// write surface info
+			if(polCur->hasSurfacename)
+			{
+				//length
+				uint32_t surfacenameLen = strlen(
+					polCur->surfacename);
+				offset = mem->size;
+				mem->size += sizeof(uint32_t); 
+				mem->data = realloc(
+					mem->data, 
+					mem->size);
+				if(!mem->data)
+				{
+					Error_fatal("Reallocation Failed");
+				}
+				memcpy(
+					mem->data + offset,
+					&surfacenameLen,
+					sizeof(uint32_t));
+				
+				//name
+				offset = mem->size;
+				mem->size += surfacenameLen;
+				mem->data = realloc(
+					mem->data, 
+					mem->size);
+				if(!mem->data)
+				{
+					Error_fatal("Reallocation Failed");
+				}
+
+				memcpy(
+					mem->data + offset,
+					polCur->surfacename,
+					surfacenameLen);
+			}
+			else
+			{
+				//write zero
+				offset = mem->size;
+				mem->size += sizeof(uint32_t); 
+				mem->data = realloc(
+					mem->data, 
+					mem->size);
+				if(!mem->data)
+				{
+					Error_fatal("Reallocation Failed");
+				}
+				memcpy(
+					mem->data + offset,
+					&Terrain_Empty_32,
+					sizeof(uint32_t));
+			}
 			// next point
 			polCur = polCur->next;
 		}

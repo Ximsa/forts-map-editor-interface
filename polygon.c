@@ -4,7 +4,9 @@ void
 Polygon_add(
 	Polygon* pol, 
 	float x, 
-	float y)
+	float y,
+	int8_t hasSurfacename,
+	char* surfacename)
 {
 	if(pol)
 	{
@@ -13,12 +15,16 @@ Polygon_add(
 			Polygon_add(
 				pol->next, 
 				x, 
-				y);
+				y,
+				hasSurfacename,
+				surfacename);
 		}
 		else
 		{
 			pol->x = x;
 			pol->y = y;
+			pol->hasSurfacename = hasSurfacename;
+			pol->surfacename = surfacename;
 			pol->next = Polygon_create(
 				pol->next);
 		}

@@ -6,13 +6,17 @@ typedef struct Polygon
 {
 	float x;
 	float y;
+	int8_t hasSurfacename;
+	char* surfacename;
 	struct Polygon* next;
 }Polygon;
 
 void 
 Polygon_add(Polygon* pol, 
 	float x, 
-	float y);
+	float y,
+	int8_t hasSurfacename,
+	char* surfacename);
 
 Polygon*
 Polygon_create(
