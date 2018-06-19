@@ -9,11 +9,10 @@ int main()
 {
 	Terrain *ter = 0;
 	ter = Terrain_create(ter);
-	float ly = 0;
 	Polygon *pol = 0;
 	pol = Polygon_create(pol);
 	Polygon_add(pol, 0 , 100000);
-	for(float x = -999; x < 1000; x++)
+	for(float x = -9999; x < 10000; x++)
 	{
 
 		float y = x/2 + sin(0.005*x)*255;
