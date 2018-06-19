@@ -191,7 +191,7 @@ Terrain_toMemory(
 
 	while(ter && ter->pol)	
 	{
-		// constant 
+		// number of points in this polygon
 		offset = mem->size;
 		mem->size += sizeof(uint32_t); 
 		mem->data = realloc(
@@ -201,9 +201,10 @@ Terrain_toMemory(
 		{
 			Error_fatal("Reallocation Failed");
 		}
+		uint32_t polygonCount = Polygon_getSize(ter->pol);
 		memcpy(
 			mem->data + offset, 
-			&Terrain_Init,
+			&polygonCount,
 			sizeof(uint32_t));
 
 		// seperate 
@@ -446,7 +447,7 @@ Terrain_toMemory(
 
 		// polygon //TODO: see what mystery parameters do (seems to be pointles)
 		Polygon* polCur = ter->pol;
-	
+		
 		while(polCur->next)
 		{
 			// add x

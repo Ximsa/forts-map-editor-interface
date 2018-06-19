@@ -9,20 +9,33 @@ int main()
 {
 	Terrain *ter = 0;
 	ter = Terrain_create(ter);
-	float ly = 0;
-	for(float x = -999; x < 1000; x++)
-	{
+	Polygon *pol = 0;
 
-		float y = (sin(0.006*x*cos(0.005*x+cos(0.004*x))) + sin(0.05*x)) * 5;
-		Polygon *pol = 0;
-		pol = Polygon_create(pol);
-		Polygon_add(pol, 0 , 100000);
-		Polygon_add(pol, (x-1)*10, ly * 1000);
-		Polygon_add(pol, x*10, y*1000);
+	pol = Polygon_create(pol);
+	Polygon_add(pol, 100 , 100);
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
+	pol = 0;
 
-		Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
-		ly = y;
-	}
+	pol = Polygon_create(pol);
+	Polygon_add(pol, 0 , 100);
+	Polygon_add(pol, 100 , 100);
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
+	pol = 0;
+
+	pol = Polygon_create(pol);
+	Polygon_add(pol, 0 , 100);
+	Polygon_add(pol, 100 , 100);
+	Polygon_add(pol, 0 , 0);
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
+	pol = 0;
+
+	pol = Polygon_create(pol);
+	Polygon_add(pol, 0 , 100);
+	Polygon_add(pol, 100 , 100);
+	Polygon_add(pol, 0 , 0);
+	Polygon_add(pol, -100 , 0);
+	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
+	pol = 0;
 
 	Memory* header = 0;
 	header = FweHeader_create(header, "environment/alpine");

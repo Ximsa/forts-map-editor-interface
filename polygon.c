@@ -87,7 +87,7 @@ Polygon_getSize(
 		}
 		else
 		{
-			return 1;
+			return 0;
 		}
 	}
 	else
@@ -129,4 +129,3 @@ Polygon_removeLast(
 	}
 	return pol;
 }
-
