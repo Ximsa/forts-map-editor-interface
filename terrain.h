@@ -14,7 +14,9 @@ typedef struct Terrain
 	struct Terrain* next;
 	struct Polygon* pol;
 	const char* filename;
+	const char* surfacename;
 	int owner;
+	int8_t hasSurfacename;
 	int8_t foundation;
 	int8_t mine;
 	int8_t windfloor;
@@ -27,7 +29,9 @@ Terrain_add(
 	Terrain* ter, 
 	Polygon* pol, 
 	const char* filename,
+	const char* surfacename,
 	int32_t owner,
+	int8_t hasSurfacename,
 	int8_t foundation,
 	int8_t mine,
 	int8_t windfloor,

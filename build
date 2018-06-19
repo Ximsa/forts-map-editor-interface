@@ -1,2 +1,2 @@
-gcc -g -Wall -c customString.c terrain.c polygon.c memory.c error.c util.c fweHeader.c
+gcc -g -Wall -c customString.c terrain.c polygon.c memory.c error.c util.c fweHeader.c 
 gcc -g -Wall -o prog main.c customString.o terrain.o polygon.o memory.o error.o util.o fweHeader.o -lm

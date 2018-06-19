@@ -3,7 +3,7 @@
 
 const uint32_t Terrain_Init = 0x00000003;
 const uint32_t Terrain_Seperator = 0x3F800000;
-const uint64_t Terrain_Header_0 = 0x003EC00000000000;
+const uint32_t Terrain_Header_0 = 0x003EC00;
 const uint64_t Terrain_Empty_64 = 0x0000000000000000;
 const uint32_t Terrain_Empty_32 = 0x00000000;
 const uint8_t Terrain_Empty_8 = 0x00;
@@ -14,7 +14,9 @@ Terrain_add(
 	Terrain* ter, 
 	Polygon* pol,
 	const char* filename,
-	int32_t owner, 
+	const char* surfacename,
+	int32_t owner,
+	int8_t hasSurfacename,
 	int8_t foundation,
 	int8_t mine,
 	int8_t windfloor,
@@ -30,7 +32,9 @@ Terrain_add(
 				ter->next,
 				pol,
 				filename,
+				surfacename,
 				owner,
+				hasSurfacename,
 				foundation,
 				mine,
 				windfloor,
@@ -41,7 +45,9 @@ Terrain_add(
 		{
 			ter->pol = pol;
 			ter->filename = filename;
+			ter->surfacename = surfacename;
 			ter->owner = owner;
+			ter->hasSurfacename = hasSurfacename;
 			ter->foundation = foundation;
 			ter->mine = mine;
 			ter->windfloor = windfloor;
@@ -242,7 +248,7 @@ Terrain_toMemory(
 			&filenameLen, 
 			sizeof(uint32_t));
 
-		//second element is the string + Null byte
+		//second element is the string
 		offset = mem->size;
 		mem->size += filenameLen;
 		mem->data = realloc(
@@ -258,6 +264,59 @@ Terrain_toMemory(
 			ter->filename,
 			filenameLen);
 
+		// 2.5th element is the surfacenameLength + surfacename
+		if(ter->hasSurfacename)
+		{
+			//length
+			offset = mem->size;
+			mem->size += sizeof(uint32_t); 
+			mem->data = realloc(
+				mem->data,
+				mem->size);
+			if(!mem->data)
+			{
+				Error_fatal("Reallocation Failed");
+			}
+			uint32_t surfacenameLen = strlen(ter->surfacename);
+			memcpy(
+				mem->data + offset, 
+				&surfacenameLen, 
+				sizeof(uint32_t));			
+
+			// name
+			offset = mem->size;
+			mem->size += surfacenameLen;
+			mem->data = realloc(
+				mem->data, 
+				mem->size);
+			if(!mem->data)
+			{
+				Error_fatal("Reallocation Failed");
+			}
+
+			memcpy(
+				mem->data + offset,
+				ter->surfacename,
+				surfacenameLen);
+		}
+		else
+		{
+			//NULL-int32
+			offset = mem->size;
+			mem->size += sizeof(uint32_t); 
+			mem->data = realloc(
+				mem->data, 
+				mem->size);
+			if(!mem->data)
+			{
+				Error_fatal("Reallocation Failed");
+			}
+			memcpy(
+				mem->data + offset, 
+				&Terrain_Empty_32, 
+				sizeof(uint32_t));
+		}
+		// NULL - byte
 		offset = mem->size;
 		mem->size += sizeof(uint8_t);
 		mem->data = realloc(
@@ -273,10 +332,9 @@ Terrain_toMemory(
 			&Terrain_Empty_8,
 			sizeof(uint8_t));
 
-
 		//third element is constant (Header #0 - #2)
 		offset = mem->size;
-		mem->size += sizeof(uint64_t); 
+		mem->size += sizeof(uint32_t); 
 		mem->data = realloc(
 			mem->data, 
 			mem->size);
@@ -287,7 +345,7 @@ Terrain_toMemory(
 		memcpy(
 			mem->data + offset, 
 			&Terrain_Header_0, 
-			sizeof(uint64_t));
+			sizeof(uint32_t));
 	
 		offset = mem->size;
 		mem->size += sizeof(uint64_t); 
