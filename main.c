@@ -10,32 +10,12 @@ int main()
 	Terrain *ter = 0;
 	ter = Terrain_create(ter);
 	Polygon *pol = 0;
-
-	pol = Polygon_create(pol);
-	Polygon_add(pol, 100 , 100);
-	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
-	pol = 0;
-
-	pol = Polygon_create(pol);
-	Polygon_add(pol, 0 , 100);
-	Polygon_add(pol, 100 , 100);
-	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
-	pol = 0;
-
-	pol = Polygon_create(pol);
-	Polygon_add(pol, 0 , 100);
-	Polygon_add(pol, 100 , 100);
-	Polygon_add(pol, 0 , 0);
-	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
-	pol = 0;
-
-	pol = Polygon_create(pol);
-	Polygon_add(pol, 0 , 100);
-	Polygon_add(pol, 100 , 100);
-	Polygon_add(pol, 0 , 0);
-	Polygon_add(pol, -100 , 0);
-	Terrain_add(ter, pol, "environment/alpine/ground/ground1.dds", 1, true, true, true, true, false);
-	pol = 0;
+	Polygon_add(pol, 0 , 10000);
+	for(float i = -999; i < 10000; i++)
+	{
+		float y = i/2 + sin(0.005*i)*255;
+		Polygon_add(pol, i , y);
+	}
 
 	Memory* header = 0;
 	header = FweHeader_create(header, "environment/alpine");
