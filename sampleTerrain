@@ -1,0 +1,7 @@
+m environment/alpine
+p 1000 -1000 0 _
+p 0 -1000 1 rocks01
+p 1000 0 1 rocks01
+p 500 -1500 1 rocks01
+p 2000 2000 0 _
+t environment/alpine/ground/ground1.dds rocks01 1 0 1 1 1 0 0
