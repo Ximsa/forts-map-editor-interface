@@ -20,8 +20,7 @@ static uint8_t fweHeader_data[] =
 };
 
 Memory*
-FweHeader_create(
-	Memory* head, 
+FweHeader_create( 
 	const char* filename);
 
 #endif

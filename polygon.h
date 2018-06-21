@@ -19,8 +19,7 @@ Polygon_add(Polygon* pol,
 	char* surfacename);
 
 Polygon*
-Polygon_create(
-	Polygon* pol);
+Polygon_create();
 
 void
 Polygon_free(

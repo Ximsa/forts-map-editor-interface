@@ -12,6 +12,7 @@
 typedef struct Terrain
 {
 	struct Terrain* next;
+	struct Terrain* last;
 	struct Polygon* pol;
 	const char* filename;
 	const char* surfacename;
@@ -26,7 +27,7 @@ typedef struct Terrain
 
 void 
 Terrain_add(
-	Terrain* ter, 
+	Terrain* ter,
 	Polygon* pol, 
 	const char* filename,
 	const char* surfacename,
@@ -39,8 +40,7 @@ Terrain_add(
 	int8_t nodraw);
 
 Terrain*
-Terrain_create(
-	Terrain* ter);
+Terrain_create();
 
 void
 Terrain_free(

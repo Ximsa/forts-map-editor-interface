@@ -26,36 +26,34 @@ Terrain_add(
 {
 	if(ter)
 	{
-		if(ter->next)
+		Terrain* toWrite = 0;
+		if(ter->last)
 		{
-			Terrain_add(
-				ter->next,
-				pol,
-				filename,
-				surfacename,
-				owner,
-				hasSurfacename,
-				foundation,
-				mine,
-				windfloor,
-				viewfloor,
-				nodraw);
+			// new last element
+			toWrite = ter->last;
+			ter->last->next = Terrain_create();
+			ter->last = ter->last->next;
+			
 		}
 		else
 		{
-			ter->pol = pol;
-			ter->filename = filename;
-			ter->surfacename = surfacename;
-			ter->owner = owner;
-			ter->hasSurfacename = hasSurfacename;
-			ter->foundation = foundation;
-			ter->mine = mine;
-			ter->windfloor = windfloor;
-			ter->viewfloor = viewfloor;
-			ter->nodraw = nodraw;
-			ter->next = Terrain_create(
-				ter->next);
+			// first element
+			toWrite = ter;
+			ter->next = Terrain_create();
+			ter->last = ter->next;
+			
 		}
+		toWrite->pol = pol;
+		toWrite->filename = filename;
+		toWrite->surfacename = surfacename;
+		toWrite->owner = owner;
+		toWrite->hasSurfacename = hasSurfacename;
+		toWrite->foundation = foundation;
+		toWrite->mine = mine;
+		toWrite->windfloor = windfloor;
+		toWrite->viewfloor = viewfloor;
+		toWrite->nodraw = nodraw;
+
 	}
 	else
 	{
@@ -64,10 +62,9 @@ Terrain_add(
 }
 
 Terrain*
-Terrain_create(
-	Terrain* ter)
+Terrain_create()
 {
-	ter = (Terrain*)calloc(
+	Terrain* ter = (Terrain*)calloc(
 		sizeof(Terrain),1);
 	return ter;
 }

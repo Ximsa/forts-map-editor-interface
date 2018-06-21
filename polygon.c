@@ -36,10 +36,9 @@ Polygon_add(
 }
 
 Polygon*
-Polygon_create(
-	Polygon* pol)
+Polygon_create()
 {
-	pol = (Polygon*)calloc(
+	Polygon* pol = (Polygon*)calloc(
 		sizeof(Polygon),1);
 	return pol;
 }

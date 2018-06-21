@@ -1,10 +1,9 @@
 #include "fweHeader.h"
 Memory*
 FweHeader_create(
-	Memory* head, 
 	const char* filename)
 {
-	head = (Memory*)calloc(sizeof(Memory), 1);
+	Memory* head = (Memory*)calloc(sizeof(Memory), 1);
 
 	// constant stuff
 	head->size = sizeof(fweHeader_data);
