@@ -10,24 +10,27 @@ Polygon_add(
 {
 	if(pol)
 	{
-		if(pol->next)
+		Polygon* toWrite = 0;
+		if(pol->last)
 		{
-			Polygon_add(
-				pol->next, 
-				x, 
-				y,
-				hasSurfacename,
-				surfacename);
+			// new last element
+			toWrite = pol->last;
+			pol->last->next = Polygon_create();
+			pol->last = pol->last->next;
+			
 		}
 		else
 		{
-			pol->x = x;
-			pol->y = y;
-			pol->hasSurfacename = hasSurfacename;
-			pol->surfacename = surfacename;
-			pol->next = Polygon_create(
-				pol->next);
+			// first element
+			toWrite = pol;
+			pol->next = Polygon_create();
+			pol->last = pol->next;
+			
 		}
+		toWrite->x = x;
+		toWrite->y = y;
+		toWrite->hasSurfacename = hasSurfacename;
+		toWrite->surfacename = surfacename;
 	}
 	else
 	{

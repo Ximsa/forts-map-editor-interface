@@ -9,6 +9,7 @@ typedef struct Polygon
 	int8_t hasSurfacename;
 	char* surfacename;
 	struct Polygon* next;
+	struct Polygon* last;
 }Polygon;
 
 void 

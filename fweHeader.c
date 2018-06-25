@@ -28,7 +28,6 @@ FweHeader_create(
 		head->data + offset,
 		&filenameLen,
 		sizeof(uint32_t));
-	printf("still there\n");
 
 	// filename
 	offset = head->size;
