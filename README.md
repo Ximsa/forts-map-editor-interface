@@ -8,7 +8,7 @@ You can specify header info (m), polygon info (p) and terrain object info (t).<b
 Header:<br/>
 ``m [enironmentString]``<br/>
 i.e: ``m environment/alpine``<br/>
-if you don't specify an header, it tries to append to that file. Make sure that said file got generated with the "-nf" Flag! <br/>
+if you don't specify an header, it tries to append to a file. Make sure that said file got generated with the "-nf" Flag! <br/>
 
 Polygon:<br/>
 ``p [x] [y] [hasSurface] [surfaceString]``<br/>
