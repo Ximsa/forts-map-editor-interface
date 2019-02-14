@@ -20,3 +20,8 @@ i.e: ``t environment/alpine/ground/ground1.dds rocks01 1 0 1 1 1 0 0``<br/>
 
 Note that the Terrain gets defined by the preceding polygon list.<br/>
 Also it doesn't matter how many header lines you write, the last one will get applyed
+
+## Compilation
+
+Cloning this repository and running the "build" script should compile it for your system. 
+Windows users need to adjust the project a bit
